@@ -1,4 +1,4 @@
-package com.redhat.demos;
+package com.redhat.demos.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -18,11 +18,24 @@ public class Todo extends PanacheEntity {
     public Todo() {
     }
 
-    public Todo(String title, int order, boolean completed) {
+    Todo(String title, int order, boolean completed) {
         this.title = title;
         this.order = order;
         this.completed = completed;
     }
+
+    public static Todo createFromJson(TodoJson todoJson) {
+        Todo todo = new Todo(todoJson.title(), todoJson.order(), todoJson.completed());
+        return todo;
+    }
+
+    public static Todo updateFromJson(Todo todo, TodoJson todoJson) {
+        todo.completed = todoJson.completed();
+        todo.title = todoJson.title();
+        todo.order = todoJson.order();
+        return todo;
+    }
+
 
     @Override
     public String toString() {
@@ -77,4 +90,5 @@ public class Todo extends PanacheEntity {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
+
 }
